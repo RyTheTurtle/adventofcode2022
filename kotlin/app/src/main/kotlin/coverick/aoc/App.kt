@@ -3,13 +3,9 @@
  */
 package coverick.aoc
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
+import coverick.aoc.day1.calorieCountingSolution
 
 fun main() {
-    println(App().greeting)
+    println("Calorie Counting Solution: ${calorieCountingSolution()}")
+    
 }
