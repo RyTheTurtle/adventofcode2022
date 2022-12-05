@@ -12,7 +12,12 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+
+    // fat jar to include all dependencies since this is an application jar 
+        id("com.github.johnrengelman.shadow") version "6.0.0"
 }
+
+project.setProperty("mainClassName", "coverick.aoc.AppKt")
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -44,5 +49,6 @@ application {
 val jar by tasks.getting(Jar::class) {
     manifest {
         attributes["Main-Class"] = "coverick.aoc.AppKt"
+        
     }
 }
