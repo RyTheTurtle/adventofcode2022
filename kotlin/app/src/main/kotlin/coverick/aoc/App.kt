@@ -4,7 +4,9 @@
 package coverick.aoc
 
 import coverick.aoc.day1.solution as calorieCounting
+import coverick.aoc.day2.solution as rockPaperScissors
 
 fun main() {
     calorieCounting()
+    rockPaperScissors()
 }
