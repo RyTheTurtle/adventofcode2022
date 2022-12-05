@@ -37,29 +37,53 @@ This list represents the Calories of the food carried by five Elves:
 In case the Elves get hungry and need extra snacks, they need to know which Elf to ask: they'd like to know how many Calories are being carried by the Elf carrying the most Calories. In the example above, this is 24000 (carried by the fourth Elf).
 
 Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
+
+--- Part Two ---
+
+By the time you calculate the answer to the Elves' question, they've already realized that the Elf carrying the most Calories of food might eventually run out of snacks.
+
+To avoid this unacceptable situation, the Elves would instead like to know the total Calories carried by the top three Elves carrying the most Calories. That way, even if one of those Elves runs out of snacks, they still have two backups.
+
+In the example above, the top three Elves are the fourth Elf (with 24000 Calories), then the third Elf (with 11000 Calories), then the fifth Elf (with 10000 Calories). The sum of the Calories carried by these three elves is 45000.
+
+Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
+
  */
 
-fun calorieCountingSolution() : Int{
-    /**
-    approach:
-        read file lines in to memory for simplicity
-        iterate over lines, counting each line's integer value 
-        toward the current elf's total. once we hit a blank line, compare 
-        the current elf calorie count to the max found so far, keep the bigger 
-        of the two 
-     */
-    
-    val fileLines = readResourceFile(INPUT_FILE) 
-    var currentElfCalorieCount = 0 
-    var maxElfCalorieCount     = 0
-    fileLines.forEach({
+private fun getElfCalorieCounts(elfInput:List<String>): List<Int> {
+    val elves = ArrayList<Int>()
+    var currentElfCalorieCount = 0
+    elfInput.forEach({
         if(it.isNullOrBlank()){ 
-            maxElfCalorieCount = maxOf(currentElfCalorieCount, maxElfCalorieCount)
+            elves.add(currentElfCalorieCount)
             currentElfCalorieCount = 0
         } else {
             currentElfCalorieCount += Integer.valueOf(it)
         }
     })
-    return maxElfCalorieCount
+    return elves
+}
+
+fun calorieCountingSolutionPart1() : Int{
     
+    val fileLines = readResourceFile(INPUT_FILE) 
+    val elfCalorieCounts = getElfCalorieCounts(fileLines)
+    return elfCalorieCounts.maxOrNull()?:0
+}
+
+fun calorieCountingSolutionPart2(): Int{
+    val fileLines = readResourceFile(INPUT_FILE) 
+    val elfCalorieCounts = getElfCalorieCounts(fileLines).sortedDescending()
+    var calorieSum = 0
+    for(i in 0..2){
+        if(i < elfCalorieCounts.size){
+            calorieSum += elfCalorieCounts[i]
+        }
+    }
+    return calorieSum
+}
+
+fun solution(){
+    println("Calorie Counting Part 1 Solution: ${calorieCountingSolutionPart1()}")
+    println("Calorie Counting Part 2 Solution: ${calorieCountingSolutionPart2()}")
 }
