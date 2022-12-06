@@ -5,8 +5,10 @@ package coverick.aoc
 
 import coverick.aoc.day1.solution as calorieCounting
 import coverick.aoc.day2.solution as rockPaperScissors
+import coverick.aoc.day3.solution as rucksackReorganization
 
 fun main() {
     calorieCounting()
     rockPaperScissors()
+    rucksackReorganization()
 }
