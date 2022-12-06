@@ -13,6 +13,17 @@ fun isOverlapped(it:List<String>):Boolean {
     return leftContainsRight || rightContainsLeft
 }
 
+
+fun isPartialOverlapped(it:List<String>):Boolean {
+    val left  = it[0].split("-").map { Integer.valueOf(it)}
+    val right = it[1].split("-").map { Integer.valueOf(it)}
+    val lowLeftInRight = left[0] >= right[0] && left[0] <= right[1]
+    val upLeftInRight  = left[1] >= right[0] && left[1] <= right[1]
+    val lowRightInLeft = right[0] >= left[0] && right[0] <= left[1]
+    val upRightInLeft  = right[1] >= left[0] && right[1] <= left[1]
+    return lowLeftInRight || upLeftInRight || lowRightInLeft || upRightInLeft
+}
+
 fun part1(): Int {
     return readResourceFile(INPUT_FILE)
     .map { it.split(",") }
@@ -20,13 +31,14 @@ fun part1(): Int {
     .count()
 }
 
-
 fun part2(): Int {
-    return 0 
+    return readResourceFile(INPUT_FILE)
+    .map { it.split(",") }
+    .filter{ isPartialOverlapped(it) }
+    .count()
 }
 
 fun solution(){
     println("Camp Cleanup Part 1 Solution: ${part1()}")
     println("Camp Cleanup Part 2 Solution: ${part2()}")
-
 }

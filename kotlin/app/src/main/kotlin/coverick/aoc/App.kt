@@ -7,6 +7,7 @@ import coverick.aoc.day1.solution as calorieCounting
 import coverick.aoc.day2.solution as rockPaperScissors
 import coverick.aoc.day3.solution as rucksackReorganization
 import coverick.aoc.day4.solution as campCleanup
+
 fun main() {
     calorieCounting()
     rockPaperScissors()
