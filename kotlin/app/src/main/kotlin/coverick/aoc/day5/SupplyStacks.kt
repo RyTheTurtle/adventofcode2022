@@ -52,11 +52,24 @@ fun applyMoveInstruction(stacks:ArrayList<ArrayDeque<String>>,
     }
 }
 
-fun part1(): String {
+
+fun applyMultiCrateMoveInstruction(stacks:ArrayList<ArrayDeque<String>>, 
+                         instruction: Triple<Int,Int,Int>) {
+        
+    val movedCrates = stacks.get(instruction.second)
+    .takeLast(instruction.first)
+    
+    stacks.get(instruction.third)
+    .addAll(movedCrates) 
+
+    for(i in 0..instruction.first-1){
+        stacks.get(instruction.second).removeLast()
+    }
+}
+
+fun getStartingCrates(input: List<String>): ArrayList<ArrayDeque<String>> {
     val stacks = ArrayList<ArrayDeque<String>>()
-    val inputs = readResourceFile(INPUT_FILE).splitOn{it.isEmpty()}
-    val startingConfig = inputs[0]
-                            .map{parseConfigLine(it)}
+    val startingConfig = input.map{parseConfigLine(it)}
     for(cratesRow in startingConfig){
         while(stacks.size < cratesRow.size){
             stacks.add(ArrayDeque<String>())
@@ -67,15 +80,27 @@ fun part1(): String {
             }
         }
     }
-    
+    return stacks
+}
+
+fun part1(): String {
+    val inputs = readResourceFile(INPUT_FILE).splitOn{it.isEmpty()}
+    val stacks = getStartingCrates(inputs[0]) 
+
     inputs[1].map{parseMoveInstruction(it)}
     .forEach{applyMoveInstruction(stacks,it)}
 
     return stacks.map{it.last()}.joinToString(separator="")
 }
 
-fun part2(): Int {
-    return 0 
+fun part2(): String {
+    val inputs = readResourceFile(INPUT_FILE).splitOn{it.isEmpty()}
+    val stacks = getStartingCrates(inputs[0]) 
+    
+    inputs[1].map{parseMoveInstruction(it)}
+    .forEach{applyMultiCrateMoveInstruction(stacks,it) }
+
+    return stacks.map{it.last()}.joinToString(separator="")
 }
 
 fun solution(){
