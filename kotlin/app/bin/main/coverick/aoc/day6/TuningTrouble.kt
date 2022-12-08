@@ -3,29 +3,31 @@ import readResourceFile
 
 val INPUT_FILE = "tuningTrouble-input.txt"
 
-fun part1(): Int {
-    val inputBuffer = readResourceFile(INPUT_FILE)[0]
-    val startOfPacketMarkerSize = 4
-    val packetMarkerBuffer = ArrayDeque<Char>(startOfPacketMarkerSize)
-    var currentIndex = 0
-    // fill buffer with minimum starting chars
-    for(i in 1..startOfPacketMarkerSize){
-        packetMarkerBuffer.add(inputBuffer.get(currentIndex))
-        currentIndex++
+fun findMarker(input:String, n:Int): Int {
+    val buf = ArrayDeque<Char>(n)
+    var currentIdx = 0
+    for(i in 1..n){
+        buf.add(input.get(currentIdx))
+        currentIdx++
     }
-    while(currentIndex < inputBuffer.length){
-        if(packetMarkerBuffer.size == packetMarkerBuffer.distinct().size){
+
+    while(currentIdx < input.length){
+        if(buf.size == buf.distinct().size){
             break
         }
-        currentIndex ++
-        packetMarkerBuffer.removeFirst()
-        packetMarkerBuffer.addLast(inputBuffer.get(currentIndex))
+        currentIdx ++
+        buf.removeFirst()
+        buf.addLast(input.get(currentIdx))
     }
-    return currentIndex+1;
+    return currentIdx+1;
+}
+
+fun part1(): Int {
+    return findMarker(readResourceFile(INPUT_FILE)[0], 4)
 }
 
 fun part2():Int {
-    return 0
+    return findMarker(readResourceFile(INPUT_FILE)[0], 14)
 }
 
 fun solution(){
