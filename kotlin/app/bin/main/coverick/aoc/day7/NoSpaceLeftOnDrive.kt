@@ -41,8 +41,7 @@ class Dir(val path:String, val parent: Dir?){
     }
 }
 
-fun part1(): Long {
-    val isDir : (String) -> Boolean = {it -> it.startsWith("dir")}
+fun readFileTreeFromInput(): Dir{
     val isCommand : (String)-> Boolean = {it -> it.startsWith("$")}
     val isFile : (String) -> Boolean = {it -> try{
         it.split(" ")[0].toInt()
@@ -82,8 +81,11 @@ fun part1(): Long {
             i++
         }
     }
-    
-    rootNode = rootNode.nav("/") 
+   return rootNode.nav("/") 
+}
+
+fun part1(): Long {
+    val rootNode = readFileTreeFromInput()
     val currentNodes = ArrayList<Dir>()
     currentNodes.add(rootNode)
     val TARGET_SIZE = 100000
@@ -98,8 +100,23 @@ fun part1(): Long {
     return sum
 }
 
-fun part2(): Int {
-    return 0 
+fun part2(): Long {
+    val rootNode = readFileTreeFromInput()
+    val TOTAL_MEMORY = 70000000
+    val REQUIRED_MEMORY = 30000000
+    val MIN_DELETE_SIZE = REQUIRED_MEMORY -(TOTAL_MEMORY - rootNode.getSize()) 
+    val currentNodes = ArrayList<Dir>() 
+    currentNodes.add(rootNode)
+    val candidateNodes = ArrayList<Dir>()
+    while(currentNodes.size > 0){
+        val cur = currentNodes.removeAt(0)
+        if(cur.getSize() >= MIN_DELETE_SIZE){
+            candidateNodes.add(cur)
+        } 
+        currentNodes.addAll(cur.subDirs)
+    }
+    candidateNodes.sortBy{it.getSize()}
+    return candidateNodes.get(0).getSize()
 }
 
 fun solution(){
