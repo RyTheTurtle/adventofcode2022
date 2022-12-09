@@ -9,6 +9,7 @@ import coverick.aoc.day3.solution as rucksackReorganization
 import coverick.aoc.day4.solution as campCleanup
 import coverick.aoc.day5.solution as supplyStacks
 import coverick.aoc.day6.solution as tuningTrouble 
+import coverick.aoc.day7.solution as noSpaceLeftOnDevice 
 
 fun main() {
     calorieCounting()
@@ -17,4 +18,5 @@ fun main() {
     campCleanup()
     supplyStacks()
     tuningTrouble()
+    noSpaceLeftOnDevice()   
 }
