@@ -10,6 +10,7 @@ import coverick.aoc.day4.solution as campCleanup
 import coverick.aoc.day5.solution as supplyStacks
 import coverick.aoc.day6.solution as tuningTrouble 
 import coverick.aoc.day7.solution as noSpaceLeftOnDevice 
+import coverick.aoc.day8.solution as treetopTreeHouse 
 
 fun main() {
     calorieCounting()
@@ -19,4 +20,5 @@ fun main() {
     supplyStacks()
     tuningTrouble()
     noSpaceLeftOnDevice()   
+    treetopTreeHouse()
 }
