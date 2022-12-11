@@ -12,7 +12,7 @@ import coverick.aoc.day6.solution as tuningTrouble
 import coverick.aoc.day7.solution as noSpaceLeftOnDevice 
 import coverick.aoc.day8.solution as treetopTreeHouse 
 import coverick.aoc.day9.solution as ropeBridge
-
+import coverick.aoc.day10.solution as cathodeRayTube
 fun main() {
     calorieCounting()
     rockPaperScissors()
@@ -23,4 +23,5 @@ fun main() {
     noSpaceLeftOnDevice()   
     treetopTreeHouse()
     ropeBridge()
+    cathodeRayTube()
 }
