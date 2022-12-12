@@ -8,7 +8,7 @@ class Monkey(startingItems: ArrayList<Long>,
     val items = startingItems
     val op = op 
     val test = test 
-    var inspections = 0
+    var inspections = 0L
 
     fun inspect(item:Long) :Long{
         inspections++
@@ -70,7 +70,7 @@ fun getProgramInput(): ArrayList<Monkey> {
     return monkeys
 }
 
-fun part1(): Int {
+fun part1(): Long {
     var monkeys = getProgramInput()
     val ROUNDS = 20 
     val relief : (Long) -> Long = {l -> l / 3}
@@ -92,8 +92,32 @@ fun part1(): Int {
     return monkeysSortedByInspections.get(0) * monkeysSortedByInspections.get(1)
 }
 
-fun part2(): Int {
-    return 0
+fun part2(): Long {
+    var monkeys = getProgramInput()
+    val ROUNDS = 10000
+    // had to look this one up, relief value is modulo the product of all primes 
+    // being used by the monkeys. effectively, this chunks the value for each worry multiplication
+    // operation to have the same divisbile remainder but without causing integer overflow and without 
+    // taking an absurd amount of memory and time to compute it using bigDecimal
+    val superMod: Long = (13*2*7*17*5*11*3*19 )
+    val relief : (Long) -> Long = {l -> l % superMod}
+    
+    for(i in 1..ROUNDS){
+        for(monkey in monkeys){
+            while(monkey.items.size > 0){
+                var item =  monkey.items.removeAt(0)
+                // monkey inspects, then we get relief
+                item = relief(monkey.inspect(item))
+
+                val monkeyToThrowTo = monkey.test(item) 
+                monkeys.get(monkeyToThrowTo).items.add(item)
+            }
+        }
+    }
+
+    val monkeysSortedByInspections = monkeys.map { it.inspections}.sortedDescending()
+    println("${monkeysSortedByInspections}")
+    return monkeysSortedByInspections.get(0).toLong() * monkeysSortedByInspections.get(1).toLong()
 }
 
 fun solution(){
