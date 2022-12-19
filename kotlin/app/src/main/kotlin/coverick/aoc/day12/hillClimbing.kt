@@ -6,10 +6,8 @@ import readResourceFile
 val INPUT_FILE = "hillClimbing-input.txt"
 typealias Coordinate = Pair<Int,Int>
 
-data class Path(var current: Coordinate, val nodes:HashSet<Coordinate>){}
-
-class Hill(val heightMap:List<CharArray>, val start: Char, val end:Char){
-    var startPos: Coordinate = Coordinate(0,0)
+class Hill(val heightMap:List<CharArray>, val startHeights: Set<Char>, val end:Char){
+    var startPos: HashSet<Coordinate> = HashSet<Coordinate>()
     var endPos: Coordinate   = Coordinate(0,0)
     val unvisited = HashSet<Coordinate>()
 
@@ -17,20 +15,22 @@ class Hill(val heightMap:List<CharArray>, val start: Char, val end:Char){
     init {
         for(i in 0..heightMap.size-1){
             for(j in 0..heightMap.get(i).size - 1){
-                if(heightMap.get(i).get(j) == start){
-                    startPos = Coordinate(i,j)
+                if(startHeights.contains(heightMap.get(i).get(j))){
+                    startPos.add(Coordinate(i,j))
                 } else if (heightMap.get(i).get(j) == end){
                     endPos = Coordinate(i,j)
                 }
                 unvisited.add(Coordinate(i,j))
             }
         }
-        println("Start height: ${getHeight(startPos)} endHeight: ${getHeight(endPos)}")
+        println("All starting points: ${startPos}")
     }
 
     // replace heights of start and end with 'a' and 'z' respectively
     init {
-        heightMap.get(startPos.first).set(startPos.second, 'a') 
+        startPos.forEach{
+            heightMap.get(it.first).set(it.second, 'a') 
+        }
         heightMap.get(endPos.first).set(endPos.second, 'z')
     }
 
@@ -60,10 +60,8 @@ class Hill(val heightMap:List<CharArray>, val start: Char, val end:Char){
                   isValidMove(c,it)}
     }
 
-    fun getShortestPathToEnd(): Int {
-        // return dfs(startPos, 0, HashSet<Coordinate>()) // 683
-        return bfs(startPos)
-        
+    fun getShortestPathToEnd(): Int? {
+        return startPos.map{bfs(it)}.sortedWith(compareBy{it}).first()
     }
 
     fun bfs(curNode: Coordinate): Int {
@@ -72,10 +70,10 @@ class Hill(val heightMap:List<CharArray>, val start: Char, val end:Char){
         val distances = HashMap<Coordinate, Int>()
         // order by current distance from origin point 
         val q = PriorityQueue<Coordinate>(compareBy{distances.getOrDefault(it, Int.MAX_VALUE)})
-        distances.put(startPos, 0)
-        visited.add(startPos)
+        distances.put(curNode, 0)
+        visited.add(curNode)
         var result = Int.MAX_VALUE
-        q.add(startPos)
+        q.add(curNode)
         while(q.size > 0){
             val current = q.poll()
             val neighbors = getNextMoves(current)
@@ -97,14 +95,16 @@ class Hill(val heightMap:List<CharArray>, val start: Char, val end:Char){
 }
 
 
-fun part1():Int{
+fun part1():Int?{
     val heightMap = readResourceFile(INPUT_FILE).map{it.toCharArray()}
-    val hill = Hill(heightMap, 'S', 'E')
+    val hill = Hill(heightMap, setOf('S'), 'E')
     return hill.getShortestPathToEnd()
 }
 
-fun part2(): Int{
-    return 0
+fun part2(): Int?{
+    val heightMap = readResourceFile(INPUT_FILE).map{it.toCharArray()}
+    val hill = Hill(heightMap, setOf('S','a'), 'E')
+    return hill.getShortestPathToEnd()
 }
 
 fun solution(){
