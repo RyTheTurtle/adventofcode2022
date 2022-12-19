@@ -14,6 +14,8 @@ import coverick.aoc.day8.solution as treetopTreeHouse
 import coverick.aoc.day9.solution as ropeBridge
 import coverick.aoc.day10.solution as cathodeRayTube
 import coverick.aoc.day11.solution as monkeyInTheMiddle
+import coverick.aoc.day12.solution as hillClimbing
+
 fun main() {
     calorieCounting()
     rockPaperScissors()
@@ -26,4 +28,5 @@ fun main() {
     ropeBridge()
     cathodeRayTube()
     monkeyInTheMiddle()
+    hillClimbing()
 }
