@@ -79,7 +79,6 @@ class Hill(val heightMap:List<CharArray>, val startHeights: Set<Char>, val end:C
             val neighbors = getNextMoves(current)
             for(neighbor in neighbors){
                 if(neighbor == endPos){
-                    println("Reached end position")
                     if(distances.getOrDefault(current, Int.MAX_VALUE) < result){
                         result = distances.getOrDefault(current, Int.MAX_VALUE) + 1
                     }

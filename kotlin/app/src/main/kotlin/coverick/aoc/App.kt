@@ -15,6 +15,7 @@ import coverick.aoc.day9.solution as ropeBridge
 import coverick.aoc.day10.solution as cathodeRayTube
 import coverick.aoc.day11.solution as monkeyInTheMiddle
 import coverick.aoc.day12.solution as hillClimbing
+import coverick.aoc.day13.solution as distressSignal
 
 fun main() {
     calorieCounting()
@@ -29,4 +30,5 @@ fun main() {
     cathodeRayTube()
     monkeyInTheMiddle()
     hillClimbing()
+    distressSignal()
 }
